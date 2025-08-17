@@ -70,6 +70,7 @@ export function generateLetterTile(registrableDomain: string, theme: Theme): Res
     headers: {
       'Content-Type': 'image/svg+xml',
       'Cache-Control': 'public, max-age=2592000, stale-while-revalidate=86400',
+      'CF-Cache-Tag': `favicon:${registrableDomain},letter-tile`,
       'Access-Control-Allow-Origin': '*',
       'X-Icon-Source': 'generated:letter-tile',
       'X-Cache': 'FALLBACK',
@@ -107,6 +108,7 @@ export function generateGenericLetterTile(letter: string, theme: Theme = 'auto',
     headers: {
       'Content-Type': 'image/svg+xml',
       'Cache-Control': 'public, max-age=2592000, stale-while-revalidate=86400',
+      'CF-Cache-Tag': `letter:${normalizedLetter.toLowerCase()}`,
       'Access-Control-Allow-Origin': '*',
       'X-Icon-Source': `generated:letter-${normalizedLetter.toLowerCase()}`,
       'X-Cache': 'GENERATED',

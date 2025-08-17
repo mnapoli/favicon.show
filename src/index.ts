@@ -6,9 +6,10 @@ import { discoverIcon } from './discovery';
 import { generateLetterTile, generateDefaultFallback, generateGenericLetterTile } from './fallback/letter-tile';
 import { landingPageHTML } from './landing';
 
-function buildCacheKey(registrable: string, theme: Theme, fallback: Fallback, forcedLetter?: string | null, color?: string | null): Request {
-  const url = new URL('https://cache.favicons.show');
+function buildCacheKey(request: Request, registrable: string, theme: Theme, fallback: Fallback, forcedLetter?: string | null, color?: string | null): Request {
+  const url = new URL(request.url);
   url.pathname = `/${registrable}`;
+  url.search = ''; // Clear existing params
   url.searchParams.set('theme', theme);
   url.searchParams.set('fallback', fallback);
   url.searchParams.set('v', '2'); // Cache version - increment to bust all caches
@@ -26,7 +27,8 @@ async function fetchAndCacheIcon(
   iconUrl: string,
   cacheKey: Request,
   ctx: ExecutionContext,
-  cacheStatus: string
+  cacheStatus: string,
+  registrable: string
 ): Promise<Response> {
   const iconResponse = await fetchWithTimeout(iconUrl, {
     headers: {
@@ -43,7 +45,16 @@ async function fetchAndCacheIcon(
   const [body1, body2] = iconResponse.body!.tee();
   
   const headers = new Headers(iconResponse.headers);
+  
+  // Remove headers that prevent edge caching
+  headers.delete('vary');
+  headers.delete('set-cookie');
+  headers.delete('x-frame-options');
+  headers.delete('strict-transport-security');
+  
+  // Set our own cache-friendly headers
   headers.set('Cache-Control', 'public, max-age=2592000, stale-while-revalidate=86400');
+  headers.set('CF-Cache-Tag', `favicon:${registrable}`);
   headers.set('Access-Control-Allow-Origin', '*');
   headers.set('X-Icon-Source', iconUrl);
   headers.set('X-Cache', cacheStatus);
@@ -120,7 +131,7 @@ export default {
     // This allows favicon discovery to happen first
 
     const color = url.searchParams.get('color');
-    const cacheKey = buildCacheKey(canonicalized.registrable, theme, fallback, forcedLetter, color);
+    const cacheKey = buildCacheKey(request, canonicalized.registrable, theme, fallback, forcedLetter, color);
     
     const cached = await caches.default.match(cacheKey);
     if (cached && !isDebug) {
@@ -211,7 +222,7 @@ export default {
 
     if (iconUrl) {
       try {
-        return await fetchAndCacheIcon(iconUrl, cacheKey, ctx, 'MISS');
+        return await fetchAndCacheIcon(iconUrl, cacheKey, ctx, 'MISS', canonicalized.registrable);
       } catch (error) {
         console.error('Failed to fetch icon:', error);
       }
