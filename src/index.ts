@@ -4,6 +4,7 @@ import { KVClient } from './utils/kv';
 import { fetchWithTimeout } from './utils/http';
 import { discoverIcon } from './discovery';
 import { generateLetterTile, generateDefaultFallback, generateGenericLetterTile } from './fallback/letter-tile';
+import { landingPageHTML } from './landing';
 
 function buildCacheKey(registrable: string, theme: Theme, fallback: Fallback, forcedLetter?: string | null, color?: string | null): Request {
   const url = new URL('https://cache.favicons.show');
@@ -67,9 +68,12 @@ export default {
     }
 
     if (!path) {
-      return new Response('Favicon Service - https://favicons.show', {
+      return new Response(landingPageHTML, {
         status: 200,
-        headers: { 'Content-Type': 'text/plain' },
+        headers: { 
+          'Content-Type': 'text/html',
+          'Cache-Control': 'public, max-age=3600'
+        },
       });
     }
 
