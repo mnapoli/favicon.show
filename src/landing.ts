@@ -3,7 +3,7 @@ export const landingPageHTML = `<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>favicon.show - Universal Favicon Discovery Service | Get Any Website's Favicon</title>
+    <title>favicon.show - Universal Favicon Discovery | Get any website's favicon</title>
     
     <!-- SEO Meta Tags -->
     <meta name="description" content="Universal favicon discovery service. Get any website's favicon with a simple URL. Fast, reliable, and includes smart fallbacks with letter tiles. Perfect for developers.">
@@ -14,20 +14,20 @@ export const landingPageHTML = `<!DOCTYPE html>
     <meta property="og:url" content="https://favicon.show/">
     <meta property="og:title" content="favicon.show - Universal Favicon Discovery Service">
     <meta property="og:description" content="Get any website's favicon with a simple URL. Fast, reliable, with smart fallbacks. Perfect for developers building web applications.">
-    <meta property="og:image" content="https://favicon.show/letter/F?color=074006">
-    <meta property="og:image:width" content="128">
-    <meta property="og:image:height" content="128">
-    <meta property="og:image:alt" content="favicon.show logo - letter F in green">
+    <meta property="og:image" content="https://favicon.show/meta-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="favicon.show - Universal Favicon Discovery Service">
     <meta property="og:site_name" content="favicon.show">
     <meta property="og:locale" content="en_US">
     
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://favicon.show/">
     <meta name="twitter:title" content="favicon.show - Universal Favicon Discovery Service">
     <meta name="twitter:description" content="Get any website's favicon with a simple URL. Fast, reliable, with smart fallbacks.">
-    <meta name="twitter:image" content="https://favicon.show/letter/F?color=074006">
-    <meta name="twitter:image:alt" content="favicon.show service logo">
+    <meta name="twitter:image" content="https://favicon.show/meta-image.png">
+    <meta name="twitter:image:alt" content="favicon.show - Universal Favicon Discovery Service">
     <meta name="twitter:creator" content="@matthieunapoli">
     
     <!-- Favicon and App Icons -->
