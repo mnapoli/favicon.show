@@ -1,6 +1,6 @@
-<div align="center"><a href="https://favicon.show"><strong>favicon.show</strong></a></div>
-
 ![![favicon.show](https://favicon.show/favicon.png)](./public/meta-image.png)
+
+<div align="center"><a href="https://favicon.show"><strong>favicon.show</strong></a></div>
 
 Grab the URL of any website's favicon, with smart discovery and caching.
 
