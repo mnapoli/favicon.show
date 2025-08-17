@@ -12,6 +12,9 @@ jobs:
         concurrency: deploy # Avoid deploying concurrently
         timeout-minutes: 15
 
+        permissions:
+            deployments: write
+
         environment:
             name: production
             url: https://favicon.show
