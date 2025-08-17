@@ -203,12 +203,12 @@ export const landingPageHTML = `<!DOCTYPE html>
             
             <!-- Title -->
             <div class="mb-6 md:mb-8">
-                <div class="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold mb-2 flex items-center items-start space-x-2 sm:space-x-3 md:space-x-6">
+                <div class="text-2xl sm:text-3xl sm:text-5xl md:text-6xl font-bold mb-2 flex items-center items-start space-x-2 sm:space-x-3 md:space-x-6">
                     <div>▓▓▓</div>
                     <div class="pt-2">FAVICON.SHOW</div>
                     <div>▓▓▓</div>
                 </div>
-                <div class="text-sm sm:text-base md:text-lg lg:text-xl opacity-80">
+                <div class="text-sm sm:text-base sm:text-lg md:text-xl opacity-80">
                     > Universal favicon discovery service
                 </div>
             </div>
@@ -238,7 +238,7 @@ export const landingPageHTML = `<!DOCTYPE html>
                         <div class="text-green-300 mb-2 text-xs md:text-sm">BASIC USAGE:</div>
                         <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 md:space-x-4">
                             <img src="https://favicon.show/github.com" class="w-6 h-6 self-start sm:self-center">
-                            <code class="vt323-font text-yellow-300 text-sm md:text-lg lg:text-xl break-all">&lt;img src="https://favicon.show/github.com"&gt;</code>
+                            <code class="vt323-font text-yellow-300 text-sm sm:text-lg md:text-xl break-all">&lt;img src="https://favicon.show/github.com"&gt;</code>
                         </div>
                     </div>
                     
@@ -247,7 +247,7 @@ export const landingPageHTML = `<!DOCTYPE html>
                         <div class="text-green-300 mb-2 text-xs md:text-sm">CUSTOM FALLBACK:</div>
                         <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 md:space-x-4">
                             <img src="https://favicon.show/nonexistent-domain-12345.com?letter=X" class="w-6 h-6 self-start sm:self-center">
-                            <code class="vt323-font text-yellow-300 text-sm md:text-lg lg:text-xl break-all">&lt;img src="https://favicon.show/example.com?letter=X"&gt;</code>
+                            <code class="vt323-font text-yellow-300 text-sm sm:text-lg md:text-xl break-all">&lt;img src="https://favicon.show/example.com?letter=X"&gt;</code>
                         </div>
                     </div>
                     
@@ -256,7 +256,7 @@ export const landingPageHTML = `<!DOCTYPE html>
                         <div class="text-green-300 mb-2 text-xs md:text-sm">LETTER TILE:</div>
                         <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 md:space-x-4">
                             <img src="https://favicon.show/letter/A" class="w-6 h-6 self-start sm:self-center">
-                            <code class="vt323-font text-yellow-300 text-sm md:text-lg lg:text-xl break-all">&lt;img src="https://favicon.show/letter/A"&gt;</code>
+                            <code class="vt323-font text-yellow-300 text-sm sm:text-lg md:text-xl break-all">&lt;img src="https://favicon.show/letter/A"&gt;</code>
                         </div>
                     </div>
                     
@@ -265,7 +265,7 @@ export const landingPageHTML = `<!DOCTYPE html>
                         <div class="text-green-300 mb-2 text-xs md:text-sm">CUSTOM COLOR:</div>
                         <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 md:space-x-4">
                             <img src="https://favicon.show/letter/B?color=FF6B6B" class="w-6 h-6 self-start sm:self-center">
-                            <code class="vt323-font text-yellow-300 text-sm md:text-lg lg:text-xl break-all">&lt;img src="https://favicon.show/letter/B?color=FF6B6B"&gt;</code>
+                            <code class="vt323-font text-yellow-300 text-sm sm:text-lg md:text-xl break-all">&lt;img src="https://favicon.show/letter/B?color=FF6B6B"&gt;</code>
                         </div>
                     </div>
                 </div>
