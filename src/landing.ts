@@ -256,7 +256,7 @@ export const landingPageHTML = `<!DOCTYPE html>
                     </div>
                 </div>
                 
-                <div class="h-4 md:h-8"></div>
+                <div class="h-10 md:h-12"></div>
             </div>
         </div>
     </div>
