@@ -9,6 +9,8 @@ jobs:
     deploy:
         runs-on: ubuntu-latest
         name: Deploy
+        concurrency: deploy # Avoid deploying concurrently
+        timeout-minutes: 15
 
         environment:
             name: production
