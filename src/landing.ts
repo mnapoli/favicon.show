@@ -94,7 +94,7 @@ export const landingPageHTML = `<!DOCTYPE html>
                     <div class="border border-green-600 bg-green-950 bg-opacity-20 p-3 md:p-4 rounded">
                         <div class="text-green-300 mb-2 text-xs md:text-sm">BASIC USAGE:</div>
                         <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 md:space-x-4">
-                            <img src="https://favicon.show/github.com" class="w-6 h-6 self-start sm:self-center">
+                            <img src="https://favicon.show/github.com" class="w-6 h-6 self-start sm:self-center rounded-md">
                             <code class="vt323-font text-yellow-300 text-sm sm:text-lg md:text-xl break-all">&lt;img src="https://favicon.show/github.com"&gt;</code>
                         </div>
                     </div>
@@ -103,7 +103,7 @@ export const landingPageHTML = `<!DOCTYPE html>
                     <div class="border border-green-600 bg-green-950 bg-opacity-20 p-3 md:p-4 rounded">
                         <div class="text-green-300 mb-2 text-xs md:text-sm">CUSTOM FALLBACK:</div>
                         <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 md:space-x-4">
-                            <img src="https://favicon.show/nonexistent-domain-12345.com?letter=X" class="w-6 h-6 self-start sm:self-center">
+                            <img src="https://favicon.show/nonexistent-domain-12345.com?letter=X" class="w-6 h-6 self-start sm:self-center rounded-md">
                             <code class="vt323-font text-yellow-300 text-sm sm:text-lg md:text-xl break-all">&lt;img src="https://favicon.show/example.com?letter=X"&gt;</code>
                         </div>
                     </div>
@@ -112,8 +112,8 @@ export const landingPageHTML = `<!DOCTYPE html>
                     <div class="border border-green-600 bg-green-950 bg-opacity-20 p-3 md:p-4 rounded">
                         <div class="text-green-300 mb-2 text-xs md:text-sm">LETTER TILE:</div>
                         <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 md:space-x-4">
-                            <img src="https://favicon.show/letter/A" class="w-6 h-6 self-start sm:self-center">
-                            <code class="vt323-font text-yellow-300 text-sm sm:text-lg md:text-xl break-all">&lt;img src="https://favicon.show/letter/A"&gt;</code>
+                            <img src="https://favicon.show/letter/L" class="w-6 h-6 self-start sm:self-center rounded-md">
+                            <code class="vt323-font text-yellow-300 text-sm sm:text-lg md:text-xl break-all">&lt;img src="https://favicon.show/letter/L"&gt;</code>
                         </div>
                     </div>
                     
@@ -121,7 +121,7 @@ export const landingPageHTML = `<!DOCTYPE html>
                     <div class="border border-green-600 bg-green-950 bg-opacity-20 p-3 md:p-4 rounded">
                         <div class="text-green-300 mb-2 text-xs md:text-sm">CUSTOM COLOR:</div>
                         <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 md:space-x-4">
-                            <img src="https://favicon.show/letter/B?color=FF6B6B" class="w-6 h-6 self-start sm:self-center">
+                            <img src="https://favicon.show/letter/B?color=FF6B6B" class="w-6 h-6 self-start sm:self-center rounded-md">
                             <code class="vt323-font text-yellow-300 text-sm sm:text-lg md:text-xl break-all">&lt;img src="https://favicon.show/letter/B?color=FF6B6B"&gt;</code>
                         </div>
                     </div>
@@ -131,7 +131,7 @@ export const landingPageHTML = `<!DOCTYPE html>
                 <div class="mt-8 md:mt-12" id="terminal-area">
                     <div id="terminal-output"></div>
                     <div class="flex items-center space-x-2">
-                        <span class="text-green-500">$</span>
+                        <span class="pt-1 text-green-500">$</span>
                         <div class="flex-1 relative">
                             <span id="terminal-text" class="text-sm md:text-base invisible absolute left-0 top-0 whitespace-pre"></span>
                             <input 
@@ -150,7 +150,10 @@ export const landingPageHTML = `<!DOCTYPE html>
                 <!-- Author -->
                 <div class="mt-6 pt-4 border-t border-green-600 border-opacity-20">
                     <div class="text-xs opacity-50 text-center">
-                        Created by <a href="https://mnapoli.fr" target="_blank" rel="noopener" class="text-green-400 hover:text-green-300 underline">Matthieu Napoli</a>
+                        <a href="https://github.com/mnapoli/favicon.show" target="_blank" class="text-green-400 hover:text-green-300 underline">Documentation</a>
+                        &dash;
+                        Created by
+                        <a href="https://mnapoli.fr" target="_blank" class="text-green-400 hover:text-green-300 underline">Matthieu Napoli</a>
                     </div>
                 </div>
                 
