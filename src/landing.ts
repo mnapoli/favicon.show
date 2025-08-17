@@ -3,7 +3,7 @@ export const landingPageHTML = `<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>favicon.show - Terminal Interface</title>
+    <title>favicon.show - Easily show favicons in your applications</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Workbench:wght@400;600;700&family=VT323&display=swap');
@@ -142,20 +142,15 @@ export const landingPageHTML = `<!DOCTYPE html>
     </style>
 </head>
 <body class="bg-black text-green-400 terminal-font scanlines min-h-screen overflow-hidden tracking-wider">
-    <div class="crt-screen terminal-border border border-green-500/30 bg-green-950/40 mx-2 my-2 md:mx-8 md:my-8 h-[calc(100vh-1rem)] md:h-[calc(100vh-4rem)] rounded-lg overflow-hidden">
+    <div class="crt-screen terminal-border border border-green-500/30 bg-green-950/40 mx-2 my-2 md:mx-8 md:my-8 h-[calc(100vh-1rem)] md:h-[calc(100vh-4rem)] rounded-lg overflow-hidden flex flex-col">
         <!-- Terminal Header -->
         <div class="bg-green-900 bg-opacity-30 px-2 md:px-4 py-2 border-b border-green-400 flex items-center">
-            <div class="flex space-x-1 md:space-x-2">
-                <div class="w-2 h-2 md:w-3 md:h-3 rounded-full bg-red-500"></div>
-                <div class="w-2 h-2 md:w-3 md:h-3 rounded-full bg-yellow-500"></div>
-                <div class="w-2 h-2 md:w-3 md:h-3 rounded-full bg-green-500"></div>
-            </div>
             <div class="flex-1 text-center text-xs md:text-sm">favicon.show - Terminal v1.0</div>
             <div class="text-xs opacity-60 hidden md:block">SYS/READY</div>
         </div>
         
         <!-- Terminal Content -->
-        <div class="crt-distortion crt-flicker p-3 md:p-6 h-full overflow-y-auto">
+        <div class="crt-distortion crt-flicker p-3 md:p-6 flex-1 overflow-y-auto">
             <!-- Boot sequence -->
             <div class="mb-8">
                 <div class="text-xs opacity-60 mb-2">FAVICON SYSTEM ONLINE...</div>
@@ -582,10 +577,15 @@ Storage          KV Namespace (Distributed)\`
             // Scroll terminal output area to bottom
             terminalOutput.scrollTop = terminalOutput.scrollHeight;
             
-            // Also scroll the entire page to show the terminal area
+            // Only scroll the page if user has scrolled up and there's significant content
             setTimeout(() => {
                 const terminalArea = document.getElementById('terminal-area');
-                terminalArea.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                const terminalRect = terminalArea.getBoundingClientRect();
+                
+                // Only auto-scroll if terminal is partially out of view
+                if (terminalRect.bottom > window.innerHeight) {
+                    terminalArea.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                }
             }, 100);
         }
         
