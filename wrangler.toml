@@ -1,7 +1,12 @@
-name = "favicon-service-production"
+name = "favicon"
 main = "src/index.ts"
 compatibility_date = "2024-01-01"
 
 [[kv_namespaces]]
 binding = "FAVICON_META"
 id = "2aa8bfd9411e43908a4563fd00255002"
+
+# Route configuration for custom domain
+[[routes]]
+pattern = "favicon.show/*"
+zone_name = "favicon.show"
