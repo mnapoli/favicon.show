@@ -3,13 +3,21 @@ import { canonicalizeInput } from './utils/canonicalize';
 import { KVClient } from './utils/kv';
 import { fetchWithTimeout } from './utils/http';
 import { discoverIcon } from './discovery';
-import { generateLetterTile, generateDefaultFallback } from './fallback/letter-tile';
+import { generateLetterTile, generateDefaultFallback, generateGenericLetterTile } from './fallback/letter-tile';
 
-function buildCacheKey(registrable: string, theme: Theme, fallback: Fallback): Request {
+function buildCacheKey(registrable: string, theme: Theme, fallback: Fallback, forcedLetter?: string | null, color?: string | null): Request {
   const url = new URL('https://cache.favicons.show');
   url.pathname = `/${registrable}`;
   url.searchParams.set('theme', theme);
   url.searchParams.set('fallback', fallback);
+  url.searchParams.set('v', '2'); // Cache version - increment to bust all caches
+  if (forcedLetter) {
+    url.searchParams.set('letter', forcedLetter);
+  }
+  if (color && !forcedLetter) {
+    // Only include color in cache key for fallbacks, not forced letters
+    url.searchParams.set('color', color);
+  }
   return new Request(url.toString());
 }
 
@@ -65,10 +73,24 @@ export default {
       });
     }
 
+    // Handle /letter/{letter} route
+    if (path.startsWith('letter/')) {
+      const letter = path.slice(7); // Remove 'letter/' prefix
+      if (!letter) {
+        return new Response('Letter parameter required', { status: 400 });
+      }
+      
+      const theme = (url.searchParams.get('theme') || 'auto') as Theme;
+      const color = url.searchParams.get('color') || undefined;
+      
+      return generateGenericLetterTile(letter, theme, color);
+    }
+
     const isDebug = path.endsWith('.json');
     const input = isDebug ? path.slice(0, -5) : path;
     const theme = (url.searchParams.get('theme') || 'auto') as Theme;
     const fallback = (url.searchParams.get('fallback') || 'letter') as Fallback;
+    const forcedLetter = url.searchParams.get('letter');
 
     let canonicalized;
     try {
@@ -90,7 +112,35 @@ export default {
       return new Response('Not Found', { status });
     }
 
-    const cacheKey = buildCacheKey(canonicalized.registrable, theme, fallback);
+    // If a letter is forced, skip discovery and generate letter tile directly
+    if (forcedLetter) {
+      if (isDebug) {
+        return new Response(
+          JSON.stringify({
+            input,
+            canonicalized,
+            theme,
+            fallback,
+            forcedLetter,
+            message: 'Using forced letter instead of discovery',
+          }),
+          {
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+              'Content-Security-Policy': "default-src 'none'",
+              'Access-Control-Allow-Origin': '*',
+            },
+          }
+        );
+      }
+      
+      const color = url.searchParams.get('color') || undefined;
+      return generateGenericLetterTile(forcedLetter, theme, color);
+    }
+
+    const color = url.searchParams.get('color');
+    const cacheKey = buildCacheKey(canonicalized.registrable, theme, fallback, forcedLetter, color);
     
     const cached = await caches.default.match(cacheKey);
     if (cached && !isDebug) {
@@ -109,6 +159,8 @@ export default {
           canonicalized,
           theme,
           fallback,
+          forcedLetter,
+          color,
           metadata: meta,
           cacheStatus: meta && kvClient.isFresh(meta) ? 'fresh' : 'stale',
         }),
@@ -186,7 +238,15 @@ export default {
     }
 
     if (fallback === 'letter') {
-      return generateLetterTile(canonicalized.registrable, theme);
+      const color = url.searchParams.get('color') || undefined;
+      if (color) {
+        // Use custom color for fallback letter tile
+        const firstLetter = canonicalized.registrable.charAt(0).toUpperCase();
+        return generateGenericLetterTile(firstLetter, theme, color);
+      } else {
+        // Use domain-based color for fallback letter tile
+        return generateLetterTile(canonicalized.registrable, theme);
+      }
     } else {
       return generateDefaultFallback();
     }

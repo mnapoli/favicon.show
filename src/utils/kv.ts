@@ -18,6 +18,7 @@ export class KVClient {
     });
   }
 
+
   isFresh(meta: FaviconMeta): boolean {
     const now = Date.now();
     const age = now - meta.lastChecked;

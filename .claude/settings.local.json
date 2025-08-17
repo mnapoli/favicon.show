@@ -8,7 +8,8 @@
       "Bash(npm run deploy:*)",
       "Bash(npx wrangler kv key delete:*)",
       "Bash(npx wrangler kv key get:*)",
-      "Bash(npx wrangler tail:*)"
+      "Bash(npx wrangler tail:*)",
+      "Bash(npx wrangler:*)"
     ],
     "deny": [],
     "ask": []

@@ -13,6 +13,8 @@ A high-performance favicon discovery and caching service built on Cloudflare Wor
 
 ## API
 
+**Service URL:** https://favicon-service-production.mnapoli.workers.dev
+
 ### Get Favicon
 ```
 GET /{input}
@@ -24,6 +26,15 @@ Returns the favicon bytes for the given input.
 - `{input}`: Can be a domain (`example.com`) or full URL (`https://blog.example.com/path`)
 - `?theme=auto|light|dark`: Theme preference (default: `auto`)
 - `?fallback=default|letter`: Fallback type (default: `letter`)
+- `?letter=X`: Force a specific letter instead of discovery (bypasses favicon lookup)
+- `?color=RRGGBB`: Custom background color for fallback letters (only used when no favicon found or letter forced)
+
+**Examples:**
+- https://favicon-service-production.mnapoli.workers.dev/github.com
+- https://favicon-service-production.mnapoli.workers.dev/madame-yams.com?theme=dark
+- https://favicon-service-production.mnapoli.workers.dev/github.com?letter=G (force letter G)
+- https://favicon-service-production.mnapoli.workers.dev/example.com?letter=E&color=FF0000 (force red E)
+- https://favicon-service-production.mnapoli.workers.dev/thisdoesnotexist123456789.com?color=00FF00 (green fallback)
 
 ### Debug Endpoint
 ```
@@ -31,6 +42,26 @@ GET /{input}.json
 ```
 
 Returns discovery metadata and cache status for debugging.
+
+**Example:**
+- https://favicon-service-production.mnapoli.workers.dev/github.com.json
+
+### Letter Tile Generator
+```
+GET /letter/{letter}
+```
+
+Generates a letter tile favicon for any single character.
+
+**Parameters:**
+- `{letter}`: Any single character (A-Z, 0-9) - invalid characters become '?'
+- `?theme=auto|light|dark`: Theme preference (default: `auto`)
+- `?color=RRGGBB`: Custom background color in hex format (without #)
+
+**Examples:**
+- https://favicon-service-production.mnapoli.workers.dev/letter/A
+- https://favicon-service-production.mnapoli.workers.dev/letter/5?theme=dark
+- https://favicon-service-production.mnapoli.workers.dev/letter/M?color=FF0000
 
 ### Health Check
 ```

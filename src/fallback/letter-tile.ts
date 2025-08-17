@@ -39,15 +39,8 @@ function getFirstLetter(domain: string): string {
   return '?';
 }
 
-export function generateLetterTile(registrableDomain: string, theme: Theme): Response {
-  const letter = getFirstLetter(registrableDomain);
-  const colors = getColorForDomain(registrableDomain);
-  
-  const isDark = theme === 'dark';
-  const bgColor = isDark ? '#2C3E50' : colors.bg;
-  const fgColor = isDark ? '#FFFFFF' : colors.fg;
-
-  const svg = `<?xml version="1.0" encoding="UTF-8"?>
+function generateLetterSvg(letter: string, bgColor: string, fgColor: string): string {
+  return `<?xml version="1.0" encoding="UTF-8"?>
 <svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
   <style>
     @media (prefers-color-scheme: dark) {
@@ -60,6 +53,17 @@ export function generateLetterTile(registrableDomain: string, theme: Theme): Res
         font-size="56" font-weight="600" text-anchor="middle" 
         dominant-baseline="central" fill="${fgColor}">${letter}</text>
 </svg>`;
+}
+
+export function generateLetterTile(registrableDomain: string, theme: Theme): Response {
+  const letter = getFirstLetter(registrableDomain);
+  const colors = getColorForDomain(registrableDomain);
+  
+  const isDark = theme === 'dark';
+  const bgColor = isDark ? '#2C3E50' : colors.bg;
+  const fgColor = isDark ? '#FFFFFF' : colors.fg;
+
+  const svg = generateLetterSvg(letter, bgColor, fgColor);
 
   return new Response(svg, {
     status: 200,
@@ -69,6 +73,43 @@ export function generateLetterTile(registrableDomain: string, theme: Theme): Res
       'Access-Control-Allow-Origin': '*',
       'X-Icon-Source': 'generated:letter-tile',
       'X-Cache': 'FALLBACK',
+    },
+  });
+}
+
+export function generateGenericLetterTile(letter: string, theme: Theme = 'auto', color?: string): Response {
+  // Validate and normalize the letter
+  let normalizedLetter = letter.charAt(0).toUpperCase();
+  if (!/[A-Z0-9]/.test(normalizedLetter)) {
+    normalizedLetter = '?';
+  }
+
+  // Determine colors
+  let bgColor: string;
+  let fgColor: string;
+
+  if (color) {
+    // Use provided color
+    bgColor = color.startsWith('#') ? color : `#${color}`;
+    fgColor = '#FFFFFF';
+  } else {
+    // Use letter-based color selection
+    const colors = getColorForDomain(normalizedLetter);
+    const isDark = theme === 'dark';
+    bgColor = isDark ? '#2C3E50' : colors.bg;
+    fgColor = isDark ? '#FFFFFF' : colors.fg;
+  }
+
+  const svg = generateLetterSvg(normalizedLetter, bgColor, fgColor);
+
+  return new Response(svg, {
+    status: 200,
+    headers: {
+      'Content-Type': 'image/svg+xml',
+      'Cache-Control': 'public, max-age=2592000, stale-while-revalidate=86400',
+      'Access-Control-Allow-Origin': '*',
+      'X-Icon-Source': `generated:letter-${normalizedLetter.toLowerCase()}`,
+      'X-Cache': 'GENERATED',
     },
   });
 }
