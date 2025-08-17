@@ -55,35 +55,35 @@ const fileSystem = {
     // Files
     '/home/favicon/readme.md': {
         type: 'file',
-        content: "# favicon.show\\n\\nUniversal favicon discovery service\\nCreated by Matthieu Napoli\\nhttps://mnapoli.fr\\n\\nCommands available in /bin:\\n- Use 'ls /bin' to see all available commands\\n- Try 'neofetch' for system info\\n- Type 'help' for basic commands"
+        content: "# favicon.show\n\nUniversal favicon discovery service\nCreated by Matthieu Napoli\nhttps://mnapoli.fr\n\nCommands available in /bin:\n- Use 'ls /bin' to see all available commands\n- Try 'neofetch' for system info\n- Type 'help' for basic commands"
     },
     '/home/favicon/status.txt': {
         type: 'file',
-        content: "SERVICE: Favicon extraction and delivery\\nSTATUS: OPERATIONAL\\nPLATFORM: Cloudflare Workers + KV\\nUPTIME: 99.9%\\nCACHE HIT RATIO: 87.3%"
+        content: "SERVICE: Favicon extraction and delivery\nSTATUS: OPERATIONAL\nPLATFORM: Cloudflare Workers + KV\nUPTIME: 99.9%\nCACHE HIT RATIO: 87.3%"
     },
     '/home/favicon/examples.html': {
         type: 'file',
-        content: "<img src=\"https://favicon.show/github.com\">\\n<img src=\"https://favicon.show/example.com?letter=X\">\\n<img src=\"https://favicon.show/letter/A\">\\n<img src=\"https://favicon.show/letter/B?color=FF6B6B\">"
+        content: "<img src=\"https://favicon.show/github.com\">\n<img src=\"https://favicon.show/example.com?letter=X\">\n<img src=\"https://favicon.show/letter/A\">\n<img src=\"https://favicon.show/letter/B?color=FF6B6B\">"
     },
     '/home/favicon/.bashrc': {
         type: 'file',
-        content: "# Favicon terminal configuration\\nexport PS1='$ '\\nalias ll='ls -la'\\nalias la='ls -a'\\necho 'Welcome to favicon.show terminal!'"
+        content: "# Favicon terminal configuration\nexport PS1='$ '\nalias ll='ls -la'\nalias la='ls -a'\necho 'Welcome to favicon.show terminal!'"
     },
     '/etc/hosts': {
         type: 'file',
-        content: "127.0.0.1 localhost\\n127.0.0.1 favicon.show\\n::1 localhost"
+        content: "127.0.0.1 localhost\n127.0.0.1 favicon.show\n::1 localhost"
     },
     '/etc/config.conf': {
         type: 'file',
-        content: "# Favicon service configuration\\nmax_cache_size=1GB\\ndefault_fallback=letter\\nworker_timeout=30s"
+        content: "# Favicon service configuration\nmax_cache_size=1GB\ndefault_fallback=letter\nworker_timeout=30s"
     },
     '/home/favicon/logs/access.log': {
         type: 'file',
-        content: "2025-08-17 13:30:15 GET /github.com 200 0.023s\\n2025-08-17 13:30:16 GET /letter/A 200 0.015s\\n2025-08-17 13:30:17 GET /example.com?letter=X 200 0.031s"
+        content: "2025-08-17 13:30:15 GET /github.com 200 0.023s\n2025-08-17 13:30:16 GET /letter/A 200 0.015s\n2025-08-17 13:30:17 GET /example.com?letter=X 200 0.031s"
     },
     '/home/favicon/logs/error.log': {
         type: 'file',
-        content: "2025-08-17 12:15:30 WARN: Favicon not found for invalid-domain-xyz.com\\n2025-08-17 12:20:45 INFO: Falling back to letter tile for missing-favicon.test"
+        content: "2025-08-17 12:15:30 WARN: Favicon not found for invalid-domain-xyz.com\n2025-08-17 12:20:45 INFO: Falling back to letter tile for missing-favicon.test"
     }
 };
 
@@ -107,7 +107,7 @@ function listDirectory(path) {
     if (!entry || entry.type !== 'dir') {
         return "ls: cannot access '" + path + "': No such file or directory";
     }
-    return entry.contents.join('\\n');
+    return entry.contents.join('\n');
 }
 
 function readFile(path) {
@@ -152,7 +152,7 @@ function changeDirectory(path) {
 }
 
 const commands = {
-    'favicon --version': () => "favicon version 1.0.0\\nCopyright (c) 2025 Matthieu Napoli",
+    'favicon --version': () => "favicon version 1.0.0\nCopyright (c) 2025 Matthieu Napoli",
     
     'favicon --help': () => `favicon - Universal favicon discovery service
 
@@ -191,7 +191,7 @@ LETTER TILE:
 CUSTOM COLOR:
 <img src="https://favicon.show/letter/X?color=FF6B6B">`,
 
-    'help': () => "Available commands: favicon --help, favicon --version, favicon --status, clear, whoami, date, uptime, ls, cd, cat, pwd\\nTry 'ls /bin' to see all available commands!",
+    'help': () => "Available commands: favicon --help, favicon --version, favicon --status, clear, whoami, date, uptime, ls, cd, cat, pwd\nTry 'ls /bin' to see all available commands!",
     
     'clear': () => {
         terminalOutput.innerHTML = '';
@@ -208,9 +208,9 @@ CUSTOM COLOR:
     
     'pwd': () => currentPath,
     
-    'ps': () => "PID    COMMAND\\n1337   favicon-worker\\n1338   cache-manager\\n1339   dns-resolver",
+    'ps': () => "PID    COMMAND\n1337   favicon-worker\n1338   cache-manager\n1339   dns-resolver",
     
-    'top': () => "Tasks: 3 total, 3 running\\nCpu(s): 0.3%us, 0.1%sy\\nMem: 42MB used, 958MB free\\n\\nPID  USER  %CPU  %MEM  COMMAND\\n1337 root   0.2   4.2  favicon-worker\\n1338 root   0.1   2.1  cache-manager",
+    'top': () => "Tasks: 3 total, 3 running\nCpu(s): 0.3%us, 0.1%sy\nMem: 42MB used, 958MB free\n\nPID  USER  %CPU  %MEM  COMMAND\n1337 root   0.2   4.2  favicon-worker\n1338 root   0.1   2.1  cache-manager",
     
     'neofetch': () => `                 favicon.show
                  ──────────────
@@ -254,7 +254,7 @@ function executeCommand(cmd) {
     if (lowerCmd.startsWith('favicon ') && !lowerCmd.includes('--')) {
         const domain = lowerCmd.substring(8).trim();
         if (domain) {
-            return `Error: favicon command requires a flag (--help, --version, --status, --examples)\\nTry: favicon --help`;
+            return `Error: favicon command requires a flag (--help, --version, --status, --examples)\nTry: favicon --help`;
         }
     }
     
@@ -265,7 +265,7 @@ function executeCommand(cmd) {
     
     // Handle partial matches
     if (lowerCmd === 'favicon') {
-        return "Error: favicon command requires arguments\\nTry: favicon --help";
+        return "Error: favicon command requires arguments\nTry: favicon --help";
     }
     
     // Easter egg responses
@@ -275,7 +275,7 @@ function executeCommand(cmd) {
         'exit': 'Cannot exit the matrix... I mean, terminal.',
         'sudo': 'With great power comes great responsibility.',
         'rm -rf /': 'Permission denied. Nice try though! 😄',
-        'hack': 'Hacking... [████████████] 100% Complete.\\nAccess Granted to Favicon Database.',
+        'hack': 'Hacking... [████████████] 100% Complete.\nAccess Granted to Favicon Database.',
         'matrix': 'There is no spoon... only favicons.',
         'coffee': '☕ Coffee.exe not found. Try tea?',
         'tea': '🫖 Brewing virtual tea... Ready!',
@@ -283,7 +283,9 @@ function executeCommand(cmd) {
         'vim': 'To exit vim, first exit reality.',
         'emacs': 'Emacs is a great operating system, lacking only a decent editor.',
         'nano': 'Nano is perfectly fine. Fight me.',
-        'curl favicon.show': 'You\'re already here! 🎉'
+        'curl favicon.show': 'You\'re already here! 🎉',
+        'curl https://favicon.show': 'You\'re already here! 🎉',
+        'curl https://favicon.show/': 'You\'re already here! 🎉',
     };
     
     if (easterEggs[lowerCmd]) {
@@ -291,7 +293,7 @@ function executeCommand(cmd) {
     }
     
     // Unknown command
-    return `Command not found: ${cmd}\\nType "help" for available commands.`;
+    return `Command not found: ${cmd}\nType "help" for available commands.`;
 }
 
 function addOutput(command, output) {
@@ -304,7 +306,9 @@ function addOutput(command, output) {
     outputDiv.className = 'terminal-output text-xs md:text-sm';
     
     if (output && output.trim()) {
-        outputDiv.innerHTML = `<span class="text-green-500">$ ${command}</span>\\n<span class="opacity-80">${output}</span>`;
+        // Convert newlines to <br> tags for HTML display
+        const formattedOutput = output.replace(/\n/g, '<br>');
+        outputDiv.innerHTML = `<span class="text-green-500">$ ${command}</span><br><span class="opacity-80">${formattedOutput}</span>`;
     } else {
         // Show command even with no output (like cd)
         outputDiv.innerHTML = `<span class="text-green-500">$ ${command}</span>`;
