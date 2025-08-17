@@ -39,6 +39,7 @@ export const landingPageHTML = `<!DOCTYPE html>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="/terminal.css">
+    <script defer data-domain="favicon.show" src="https://plausible.io/js/script.js"></script>
 </head>
 <body class="bg-black text-green-400 terminal-font scanlines min-h-screen overflow-hidden tracking-wider">
     <div class="crt-screen terminal-border border border-green-500/30 bg-green-950/40 mx-2 my-2 md:mx-8 md:my-8 h-[calc(100vh-1rem)] md:h-[calc(100vh-4rem)] rounded-lg overflow-hidden flex flex-col">
