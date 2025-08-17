@@ -237,15 +237,18 @@ export const landingPageHTML = `<!DOCTYPE html>
                     <div id="terminal-output"></div>
                     <div class="flex items-center space-x-2">
                         <span class="text-green-500">$</span>
-                        <input 
-                            type="text" 
-                            id="terminal-input" 
-                            class="terminal-input flex-1 text-sm md:text-base"
-                            autocomplete="off"
-                            spellcheck="false"
-                            maxlength="100"
-                        >
-                        <span class="terminal-cursor"></span>
+                        <div class="flex-1 relative">
+                            <span id="terminal-text" class="text-sm md:text-base invisible absolute left-0 top-0 whitespace-pre"></span>
+                            <input 
+                                type="text" 
+                                id="terminal-input" 
+                                class="terminal-input w-full text-sm md:text-base"
+                                autocomplete="off"
+                                spellcheck="false"
+                                maxlength="100"
+                            >
+                            <span id="terminal-cursor" class="terminal-cursor absolute top-0" style="left: 0;"></span>
+                        </div>
                     </div>
                 </div>
                 
@@ -265,6 +268,16 @@ export const landingPageHTML = `<!DOCTYPE html>
         // Terminal functionality
         const terminalInput = document.getElementById('terminal-input');
         const terminalOutput = document.getElementById('terminal-output');
+        const terminalText = document.getElementById('terminal-text');
+        const terminalCursor = document.getElementById('terminal-cursor');
+        
+        // Update cursor position based on input text
+        function updateCursorPosition() {
+            const text = terminalInput.value;
+            terminalText.textContent = text;
+            const textWidth = terminalText.offsetWidth;
+            terminalCursor.style.left = textWidth + 'px';
+        }
         
         // Simulated file system
         let currentPath = '/home/favicon';
@@ -449,7 +462,7 @@ CUSTOM COLOR:
             
             'clear': () => {
                 terminalOutput.innerHTML = '';
-                return '';
+                return null; // Use null to indicate special handling
             },
             
             'whoami': () => "root",
@@ -549,15 +562,31 @@ Storage          KV Namespace (Distributed)\`
         }
         
         function addOutput(command, output) {
-            if (output) {
-                const outputDiv = document.createElement('div');
-                outputDiv.className = 'terminal-output text-xs md:text-sm';
-                outputDiv.innerHTML = \`<span class="text-green-500">$ \${command}</span>\\n<span class="opacity-80">\${output}</span>\`;
-                terminalOutput.appendChild(outputDiv);
-                
-                // Scroll to bottom
-                terminalOutput.scrollTop = terminalOutput.scrollHeight;
+            // Special handling for clear command - don't add any output
+            if (output === null && command.toLowerCase() === 'clear') {
+                return;
             }
+            
+            const outputDiv = document.createElement('div');
+            outputDiv.className = 'terminal-output text-xs md:text-sm';
+            
+            if (output && output.trim()) {
+                outputDiv.innerHTML = \`<span class="text-green-500">$ \${command}</span>\\n<span class="opacity-80">\${output}</span>\`;
+            } else {
+                // Show command even with no output (like cd)
+                outputDiv.innerHTML = \`<span class="text-green-500">$ \${command}</span>\`;
+            }
+            
+            terminalOutput.appendChild(outputDiv);
+            
+            // Scroll terminal output area to bottom
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+            
+            // Also scroll the entire page to show the terminal area
+            setTimeout(() => {
+                const terminalArea = document.getElementById('terminal-area');
+                terminalArea.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }, 100);
         }
         
         terminalInput.addEventListener('keydown', function(e) {
@@ -568,8 +597,14 @@ Storage          KV Namespace (Distributed)\`
                     addOutput(command, output);
                 }
                 this.value = '';
+                updateCursorPosition();
             }
         });
+        
+        // Update cursor position on input changes
+        terminalInput.addEventListener('input', updateCursorPosition);
+        terminalInput.addEventListener('keyup', updateCursorPosition);
+        terminalInput.addEventListener('click', updateCursorPosition);
         
         // Focus input when clicking anywhere in terminal area
         document.getElementById('terminal-area').addEventListener('click', function() {
@@ -599,6 +634,7 @@ Storage          KV Namespace (Distributed)\`
         window.addEventListener('load', function() {
             setTimeout(() => {
                 terminalInput.focus();
+                updateCursorPosition();
             }, 100);
         });
         
@@ -606,6 +642,7 @@ Storage          KV Namespace (Distributed)\`
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 terminalInput.focus();
+                updateCursorPosition();
             }, 50);
         });
     </script>
