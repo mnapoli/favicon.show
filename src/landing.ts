@@ -218,6 +218,13 @@ export const landingPageHTML = `<!DOCTYPE html>
                     </div>
                 </div>
                 
+                <!-- Author -->
+                <div class="mt-6 pt-4 border-t border-green-600 border-opacity-20">
+                    <div class="text-xs opacity-50 text-center">
+                        Created by <a href="https://mnapoli.fr" target="_blank" rel="noopener" class="text-green-400 hover:text-green-300 underline">Matthieu Napoli</a>
+                    </div>
+                </div>
+                
                 <div class="h-4 md:h-8"></div>
             </div>
         </div>
