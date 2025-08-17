@@ -117,6 +117,20 @@ export const landingPageHTML = `<!DOCTYPE html>
                 );
             background-size: 100% 3px;
         }
+        
+        .terminal-input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #00ff00;
+            font-family: inherit;
+            caret-color: transparent;
+        }
+        
+        .terminal-output {
+            white-space: pre-wrap;
+            margin: 0.5rem 0;
+        }
     </style>
 </head>
 <body class="bg-black text-green-400 terminal-font scanlines min-h-screen overflow-hidden tracking-wider">
@@ -210,10 +224,19 @@ export const landingPageHTML = `<!DOCTYPE html>
                     </div>
                 </div>
                 
-                <!-- Footer prompt -->
-                <div class="mt-8 md:mt-12">
+                <!-- Interactive Terminal -->
+                <div class="mt-8 md:mt-12" id="terminal-area">
+                    <div id="terminal-output"></div>
                     <div class="flex items-center space-x-2">
                         <span class="text-green-500">$</span>
+                        <input 
+                            type="text" 
+                            id="terminal-input" 
+                            class="terminal-input flex-1 text-sm md:text-base"
+                            autocomplete="off"
+                            spellcheck="false"
+                            maxlength="100"
+                        >
                         <span class="terminal-cursor"></span>
                     </div>
                 </div>
@@ -229,5 +252,167 @@ export const landingPageHTML = `<!DOCTYPE html>
             </div>
         </div>
     </div>
+    
+    <script>
+        // Terminal functionality
+        const terminalInput = document.getElementById('terminal-input');
+        const terminalOutput = document.getElementById('terminal-output');
+        
+        const commands = {
+            'favicon --version': () => "favicon version 1.0.0\\nCopyright (c) 2025 Matthieu Napoli",
+            
+            'favicon --help': () => \`favicon - Universal favicon discovery service
+
+USAGE:
+    favicon [OPTIONS] <domain>
+
+OPTIONS:
+    --version    Show version information
+    --help       Show this help message
+    --status     Show service status
+    --examples   Show usage examples
+
+EXAMPLES:
+    favicon github.com
+    favicon example.com?letter=X
+    favicon letter/X?color=FF6B6B
+
+For more information, visit https://favicon.show\`,
+
+            'favicon --status': () => \`SERVICE: Favicon extraction and delivery
+STATUS: OPERATIONAL
+PLATFORM: Cloudflare Workers + KV
+FALLBACK ALPHABET: LOADED
+UPTIME: 99.9%
+CACHE HIT RATIO: 87.3%\`,
+
+            'favicon --examples': () => \`BASIC USAGE:
+<img src="https://favicon.show/github.com">
+
+CUSTOM FALLBACK:
+<img src="https://favicon.show/example.com?letter=X">
+
+LETTER TILE:
+<img src="https://favicon.show/letter/X">
+
+CUSTOM COLOR:
+<img src="https://favicon.show/letter/X?color=FF6B6B">\`,
+
+            'help': () => "Available commands: favicon --help, favicon --version, favicon --status, clear, whoami, date, uptime",
+            
+            'clear': () => {
+                terminalOutput.innerHTML = '';
+                return '';
+            },
+            
+            'whoami': () => "root",
+            
+            'date': () => new Date().toString(),
+            
+            'uptime': () => "favicon.show has been online for 42 days, 13:37",
+            
+            'ls': () => "favicon.html\\nstatus.txt\\nreadme.md",
+            
+            'pwd': () => "/home/favicon",
+            
+            'cat readme.md': () => "# favicon.show\\n\\nUniversal favicon discovery service\\nCreated by Matthieu Napoli\\nhttps://mnapoli.fr",
+            
+            'ps': () => "PID    COMMAND\\n1337   favicon-worker\\n1338   cache-manager\\n1339   dns-resolver",
+            
+            'top': () => "Tasks: 3 total, 3 running\\nCpu(s): 0.3%us, 0.1%sy\\nMem: 42MB used, 958MB free\\n\\nPID  USER  %CPU  %MEM  COMMAND\\n1337 root   0.2   4.2  favicon-worker\\n1338 root   0.1   2.1  cache-manager",
+            
+            'neofetch': () => \`                 favicon.show
+                 ──────────────
+OS               Cloudflare Workers
+Kernel           V8 JavaScript Engine
+Uptime           42 days, 13 hours, 37 mins
+Shell            favicon-terminal v1.0
+Resolution       Universal Favicon Discovery
+Terminal         retro-crt
+CPU              Edge Computing (Global)
+Memory           42MB / 1GB
+Storage          KV Namespace (Distributed)\`
+        };
+        
+        function executeCommand(cmd) {
+            const trimmed = cmd.trim().toLowerCase();
+            
+            // Handle favicon commands with arguments
+            if (trimmed.startsWith('favicon ') && !trimmed.includes('--')) {
+                const domain = trimmed.substring(8).trim();
+                if (domain) {
+                    return \`Error: favicon command requires a flag (--help, --version, --status, --examples)\\nTry: favicon --help\`;
+                }
+            }
+            
+            // Check exact commands
+            if (commands[trimmed]) {
+                return commands[trimmed]();
+            }
+            
+            // Handle partial matches
+            if (trimmed === 'favicon') {
+                return "Error: favicon command requires arguments\\nTry: favicon --help";
+            }
+            
+            // Easter egg responses
+            const easterEggs = {
+                'hello': 'Hello! Welcome to favicon.show terminal!',
+                'hi': 'Hi there! Type "help" for available commands.',
+                'exit': 'Cannot exit the matrix... I mean, terminal.',
+                'sudo': 'With great power comes great responsibility.',
+                'rm -rf /': 'Permission denied. Nice try though! 😄',
+                'hack': 'Hacking... [████████████] 100% Complete.\\nAccess Granted to Favicon Database.',
+                'matrix': 'There is no spoon... only favicons.',
+                'coffee': '☕ Coffee.exe not found. Try tea?',
+                'tea': '🫖 Brewing virtual tea... Ready!',
+                'ping': 'PONG! favicon.show is alive and kicking.',
+                'vim': 'To exit vim, first exit reality.',
+                'emacs': 'Emacs is a great operating system, lacking only a decent editor.',
+                'nano': 'Nano is perfectly fine. Fight me.',
+                'curl favicon.show': 'You\\'re already here! 🎉'
+            };
+            
+            if (easterEggs[trimmed]) {
+                return easterEggs[trimmed];
+            }
+            
+            // Unknown command
+            return \`Command not found: \${cmd}\\nType "help" for available commands.\`;
+        }
+        
+        function addOutput(command, output) {
+            if (output) {
+                const outputDiv = document.createElement('div');
+                outputDiv.className = 'terminal-output text-xs md:text-sm';
+                outputDiv.innerHTML = \`<span class="text-green-500">$ \${command}</span>\\n<span class="opacity-80">\${output}</span>\`;
+                terminalOutput.appendChild(outputDiv);
+                
+                // Scroll to bottom
+                terminalOutput.scrollTop = terminalOutput.scrollHeight;
+            }
+        }
+        
+        terminalInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const command = this.value.trim();
+                if (command) {
+                    const output = executeCommand(command);
+                    addOutput(command, output);
+                }
+                this.value = '';
+            }
+        });
+        
+        // Focus input when clicking anywhere in terminal area
+        document.getElementById('terminal-area').addEventListener('click', function() {
+            terminalInput.focus();
+        });
+        
+        // Auto-focus on page load
+        window.addEventListener('load', function() {
+            terminalInput.focus();
+        });
+    </script>
 </body>
 </html>`;
