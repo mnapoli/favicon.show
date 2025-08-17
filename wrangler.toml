@@ -1,0 +1,13 @@
+name = "favicon-service"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+
+[[kv_namespaces]]
+binding = "FAVICON_META"
+id = "2aa8bfd9411e43908a4563fd00255002"
+preview_id = "b37367a3150e4782b4c49acbbdf3ec5f"
+
+[env.production]
+route = "favicons.show/*"
+
+[env.development]
