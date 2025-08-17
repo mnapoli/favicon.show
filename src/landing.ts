@@ -670,21 +670,20 @@ Storage          KV Namespace (Distributed)\`
                 e.key === 'Escape') return;
             
             // Focus terminal input and let the character be typed
-            terminalInput.focus();
+            // Use preventScroll to avoid auto-scrolling when focusing
+            terminalInput.focus({ preventScroll: true });
         });
         
-        // Auto-focus on page load (with slight delay to ensure DOM is ready)
+        // Initialize cursor position without focusing
         window.addEventListener('load', function() {
             setTimeout(() => {
-                terminalInput.focus();
                 updateCursorPosition();
             }, 100);
         });
         
-        // Also focus immediately if DOM is already ready
+        // Also initialize if DOM is already ready
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
-                terminalInput.focus();
                 updateCursorPosition();
             }, 50);
         });
