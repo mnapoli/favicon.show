@@ -12,9 +12,6 @@ jobs:
         concurrency: deploy # Avoid deploying concurrently
         timeout-minutes: 15
 
-        permissions:
-            deployments: write
-
         environment:
             name: production
             url: https://favicon.show
@@ -34,14 +31,6 @@ jobs:
 
             -   name: Type check
                 run: npm run typecheck
-
-            -   name: Create deployment
-                uses: chrnorm/deployment-action@v2
-                id: deployment
-                with:
-                    token: '${{ github.token }}'
-                    environment-url: https://favicon.show
-                    environment: production
 
             -   name: Deploy to Cloudflare Workers
                 uses: cloudflare/wrangler-action@v3
