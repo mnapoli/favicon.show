@@ -1,15 +1,8 @@
-# Favicon Service
+# [favicon.show](https://favicon.show)
 
-A high-performance favicon discovery and caching service built on Cloudflare Workers.
+Grab the URL of any website's favicon, with smart discovery and caching.
 
-## Features
-
-- **Smart Discovery**: Automatically discovers favicons from websites using multiple strategies
-- **Size Optimization**: Prefers icons ≤128×128 pixels, with intelligent selection
-- **Theme Support**: Light/dark mode favicon selection based on media queries
-- **Fallback Generation**: Letter-tile SVG generation when no favicon is found
-- **Edge Caching**: Leverages Cloudflare's edge network for fast response times
-- **Metadata Storage**: KV-based metadata caching with 7-day revalidation
+This service provides a fast and reliable way to retrieve favicons from any domain, with support for light/dark themes, fallback generation, and edge caching. It is built on Cloudflare Workers and uses KV storage for metadata.
 
 ## API
 
