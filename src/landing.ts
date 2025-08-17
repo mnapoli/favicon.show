@@ -203,12 +203,12 @@ export const landingPageHTML = `<!DOCTYPE html>
             
             <!-- Title -->
             <div class="mb-6 md:mb-8">
-                <div class="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold mb-2 flex flex-col sm:flex-row items-center sm:items-start space-y-2 sm:space-y-0 sm:space-x-3 md:space-x-6">
-                    <div class="hidden sm:block">▓▓▓</div>
-                    <div class="pt-0 sm:pt-2 text-center sm:text-left">FAVICON.SHOW</div>
-                    <div class="hidden sm:block">▓▓▓</div>
+                <div class="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold mb-2 flex items-center items-start space-x-2 sm:space-x-3 md:space-x-6">
+                    <div>▓▓▓</div>
+                    <div class="pt-2">FAVICON.SHOW</div>
+                    <div>▓▓▓</div>
                 </div>
-                <div class="text-sm sm:text-base md:text-lg lg:text-xl opacity-80 text-center sm:text-left">
+                <div class="text-sm sm:text-base md:text-lg lg:text-xl opacity-80">
                     > Universal favicon discovery service
                 </div>
             </div>
