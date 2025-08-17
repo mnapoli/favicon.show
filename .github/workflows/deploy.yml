@@ -1,0 +1,64 @@
+name: Deploy
+
+on:
+    push:
+        branches: [ main ]
+    workflow_dispatch:
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        name: Deploy
+
+        environment:
+            name: production
+            url: https://favicon.show
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v5
+
+            -   name: Setup Node.js
+                uses: actions/setup-node@v4
+                with:
+                    node-version: '20'
+                    cache: 'npm'
+
+            -   name: Install dependencies
+                run: npm ci
+
+            -   name: Type check
+                run: npm run typecheck
+
+            -   name: Create deployment
+                uses: chrnorm/deployment-action@v2
+                id: deployment
+                with:
+                    token: '${{ github.token }}'
+                    environment-url: https://favicon.show
+                    environment: production
+
+            -   name: Deploy to Cloudflare Workers
+                uses: cloudflare/wrangler-action@v3
+                with:
+                    apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+                    accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+                    command: deploy
+
+            -   name: Update deployment status (success)
+                if: success()
+                uses: chrnorm/deployment-status@v2
+                with:
+                    token: '${{ github.token }}'
+                    environment-url: https://favicon.show
+                    deployment-id: ${{ steps.deployment.outputs.deployment_id }}
+                    state: 'success'
+
+            -   name: Update deployment status (failure)
+                if: failure()
+                uses: chrnorm/deployment-status@v2
+                with:
+                    token: '${{ github.token }}'
+                    environment-url: https://favicon.show
+                    deployment-id: ${{ steps.deployment.outputs.deployment_id }}
+                    state: 'failure'
