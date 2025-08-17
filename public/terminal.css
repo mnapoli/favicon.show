@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Workbench:wght@400;600;700&family=VT323&display=swap');
+
+.terminal-font {
+    font-family: 'Workbench', 'Courier New', monospace;
+}
+
+.vt323-font {
+    font-family: 'VT323', 'Courier New', monospace;
+    font-size: 1.1em;
+    letter-spacing: 0.05em;
+}
+
+.terminal-cursor::after {
+    content: '█';
+    animation: blink 1s infinite;
+    color: #00ff00;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+.terminal-border {
+    box-shadow: 
+        inset 0 0 20px rgba(0, 255, 0, 0.1),
+        0 0 20px rgba(0, 255, 0, 0.05);
+}
+
+.crt-screen {
+    position: relative;
+    transform: perspective(1000px) rotateX(0deg);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.crt-screen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.7) 100%),
+        linear-gradient(
+            90deg,
+            transparent 72%,
+            rgba(255,0,0,0.15) 74%,
+            rgba(0,255,0,0.15) 76%,
+            rgba(0,0,255,0.15) 78%,
+            transparent 80%
+        );
+    background-size: 100% 100%, 3px 3px;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.crt-screen::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 1px,
+            rgba(0,255,0,0.08) 1px,
+            rgba(0,255,0,0.08) 3px
+        );
+    pointer-events: none;
+    z-index: 999;
+}
+
+.crt-flicker {
+    animation: flicker 0.1s infinite linear alternate;
+}
+
+@keyframes flicker {
+    0% { opacity: 1; }
+    94% { opacity: 1; }
+    95% { opacity: 0.92; }
+    96% { opacity: 0.98; }
+    97% { opacity: 0.95; }
+    98% { opacity: 0.89; }
+    99% { opacity: 0.97; }
+    100% { opacity: 1; }
+}
+
+.crt-distortion {
+    filter: 
+        contrast(1.3)
+        brightness(1.15)
+        drop-shadow(0 0 5px rgba(0,255,0,0.6))
+        drop-shadow(2px 0 3px rgba(255,0,0,0.2))
+        drop-shadow(-2px 0 3px rgba(0,0,255,0.2));
+    transform: scaleX(0.995) scaleY(1.008);
+}
+
+.scanlines {
+    background: 
+        linear-gradient(
+            transparent 48%, 
+            rgba(0, 255, 0, 0.08) 50%,
+            transparent 52%
+        );
+    background-size: 100% 3px;
+}
+
+.terminal-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #00ff00;
+    font-family: inherit;
+    caret-color: transparent;
+    box-shadow: none;
+}
+
+.terminal-input:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
+    ring: none;
+}
+
+.terminal-output {
+    white-space: pre-wrap;
+    margin: 0.5rem 0;
+}
+
+/* Hide scrollbars */
+.crt-distortion {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.crt-distortion::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
