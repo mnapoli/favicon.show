@@ -178,34 +178,34 @@ export const landingPageHTML = `<!DOCTYPE html>
                         <div class="text-green-300 mb-2">BASIC USAGE:</div>
                         <div class="flex items-center space-x-4">
                             <img src="https://favicon.show/github.com" class="w-6 h-6">
-                            <span class="vt323-font text-yellow-300 text-xl">https://favicon.show/github.com</span>
+                            <code class="vt323-font text-yellow-300 text-xl">&lt;img src="https://favicon.show/github.com"&gt;</code>
                         </div>
                     </div>
                     
                     <!-- Example -->
                     <div class="border border-green-600 bg-green-950 bg-opacity-20 p-4 rounded">
-                        <div class="text-green-300 mb-2">FAVICON FALLBACK:</div>
+                        <div class="text-green-300 mb-2">CUSTOM FALLBACK:</div>
                         <div class="flex items-center space-x-4">
                             <img src="https://favicon.show/nonexistent-domain-12345.com?letter=X" class="w-6 h-6">
-                            <code class="vt323-font text-yellow-300 text-xl">https://favicon.show/example.com?letter=X</code>
+                            <code class="vt323-font text-yellow-300 text-xl">&lt;img src="https://favicon.show/example.com?letter=X"&gt;</code>
                         </div>
                     </div>
                     
                     <!-- Example -->
                     <div class="border border-green-600 bg-green-950 bg-opacity-20 p-4 rounded">
-                        <div class="text-green-300 mb-2">LETTER FAVICON:</div>
+                        <div class="text-green-300 mb-2">LETTER TILE:</div>
                         <div class="flex items-center space-x-4">
                             <img src="https://favicon.show/letter/X" class="w-6 h-6">
-                            <code class="vt323-font text-yellow-300 text-xl">https://favicon.show/letter/X</code>
+                            <code class="vt323-font text-yellow-300 text-xl">&lt;img src="https://favicon.show/letter/X"&gt;</code>
                         </div>
                     </div>
                     
                     <!-- Example -->
                     <div class="border border-green-600 bg-green-950 bg-opacity-20 p-4 rounded">
-                        <div class="text-green-300 mb-2">LETTER COLOR:</div>
+                        <div class="text-green-300 mb-2">CUSTOM COLOR:</div>
                         <div class="flex items-center space-x-4">
-                            <img src="https://favicon.show/letter/X&color=FF6B6B" class="w-6 h-6">
-                            <code class="vt323-font text-yellow-300 text-xl">https://favicon.show/letter/X&color=FF6B6B</code>
+                            <img src="https://favicon.show/letter/X?color=FF6B6B" class="w-6 h-6">
+                            <code class="vt323-font text-yellow-300 text-xl">&lt;img src="https://favicon.show/letter/X?color=FF6B6B"&gt;</code>
                         </div>
                     </div>
                 </div>
