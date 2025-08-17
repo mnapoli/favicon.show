@@ -108,7 +108,6 @@ export async function discoverIcon(
       return candidate.url;
     }
   }
-
   return null;
 }
 
@@ -119,11 +118,6 @@ async function parseHtml(response: Response, baseUrl: string): Promise<IconCandi
     .on('link', {
       element(element: Element) {
         collector.element(element);
-      }
-    })
-    .on('/head', {
-      element() {
-        // Stop processing after </head>
       }
     });
 
@@ -206,37 +200,41 @@ function parseMaxSize(sizes?: string): number {
 
 async function verifyCandidate(url: string): Promise<boolean> {
   try {
-    const response = await fetchWithTimeout(url, {
+    // Try HEAD first
+    let response = await fetchWithTimeout(url, {
       method: 'HEAD',
       headers: {
         'User-Agent': 'Mozilla/5.0 (compatible; FaviconBot/1.0)',
       },
-      timeout: 3000,
+      timeout: 5000,
     });
     
-    if (!response.ok && response.status !== 405) {
-      return false;
-    }
-    
-    if (response.status === 405) {
-      const getResponse = await fetchWithTimeout(url, {
+    // If HEAD fails or returns 405, try GET with Range
+    if (!response.ok) {
+      response = await fetchWithTimeout(url, {
         method: 'GET',
         headers: {
           'User-Agent': 'Mozilla/5.0 (compatible; FaviconBot/1.0)',
-          'Range': 'bytes=0-0',
+          'Range': 'bytes=0-1023',
         },
-        timeout: 3000,
+        timeout: 5000,
       });
-      
-      if (!getResponse.ok) return false;
-      
-      const contentType = getResponse.headers.get('content-type')?.toLowerCase() || '';
-      return Array.from(ACCEPTABLE_TYPES).some(type => contentType.includes(type));
+    }
+    
+    if (!response.ok) {
+      return false;
     }
     
     const contentType = response.headers.get('content-type')?.toLowerCase() || '';
+    
+    // Check content type
+    if (ACCEPTABLE_TYPES.has(contentType)) {
+      return true;
+    }
+    
+    // Check if any acceptable type is in the content type string
     return Array.from(ACCEPTABLE_TYPES).some(type => contentType.includes(type));
-  } catch {
+  } catch (error) {
     return false;
   }
 }
