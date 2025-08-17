@@ -112,32 +112,8 @@ export default {
       return new Response('Not Found', { status });
     }
 
-    // If a letter is forced, skip discovery and generate letter tile directly
-    if (forcedLetter) {
-      if (isDebug) {
-        return new Response(
-          JSON.stringify({
-            input,
-            canonicalized,
-            theme,
-            fallback,
-            forcedLetter,
-            message: 'Using forced letter instead of discovery',
-          }),
-          {
-            status: 200,
-            headers: {
-              'Content-Type': 'application/json',
-              'Content-Security-Policy': "default-src 'none'",
-              'Access-Control-Allow-Origin': '*',
-            },
-          }
-        );
-      }
-      
-      const color = url.searchParams.get('color') || undefined;
-      return generateGenericLetterTile(forcedLetter, theme, color);
-    }
+    // Note: forcedLetter is handled in fallback logic, not here
+    // This allows favicon discovery to happen first
 
     const color = url.searchParams.get('color');
     const cacheKey = buildCacheKey(canonicalized.registrable, theme, fallback, forcedLetter, color);
@@ -239,6 +215,12 @@ export default {
 
     if (fallback === 'letter') {
       const color = url.searchParams.get('color') || undefined;
+      
+      // If a letter is forced, use it instead of domain's first letter
+      if (forcedLetter) {
+        return generateGenericLetterTile(forcedLetter, theme, color);
+      }
+      
       if (color) {
         // Use custom color for fallback letter tile
         const firstLetter = canonicalized.registrable.charAt(0).toUpperCase();
