@@ -3,7 +3,40 @@ export const landingPageHTML = `<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>favicon.show - Easily show favicons in your applications</title>
+    <title>favicon.show - Universal Favicon Discovery Service | Get Any Website's Favicon</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Universal favicon discovery service. Get any website's favicon with a simple URL. Fast, reliable, and includes smart fallbacks with letter tiles. Perfect for developers.">
+    <meta name="keywords" content="favicon, icon, website icon, favicon service, favicon API, letter tiles, web development, favicon discovery, website favicon, favicon generator">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://favicon.show/">
+    <meta property="og:title" content="favicon.show - Universal Favicon Discovery Service">
+    <meta property="og:description" content="Get any website's favicon with a simple URL. Fast, reliable, with smart fallbacks. Perfect for developers building web applications.">
+    <meta property="og:image" content="https://favicon.show/letter/F?color=074006">
+    <meta property="og:image:width" content="128">
+    <meta property="og:image:height" content="128">
+    <meta property="og:image:alt" content="favicon.show logo - letter F in green">
+    <meta property="og:site_name" content="favicon.show">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:url" content="https://favicon.show/">
+    <meta name="twitter:title" content="favicon.show - Universal Favicon Discovery Service">
+    <meta name="twitter:description" content="Get any website's favicon with a simple URL. Fast, reliable, with smart fallbacks.">
+    <meta name="twitter:image" content="https://favicon.show/letter/F?color=074006">
+    <meta name="twitter:image:alt" content="favicon.show service logo">
+    <meta name="twitter:creator" content="@matthieunapoli">
+    
+    <!-- Favicon and App Icons -->
+    <link rel="icon" type="image/svg+xml" href="https://favicon.show/letter/F?color=074006">
+    <link rel="apple-touch-icon" href="https://favicon.show/letter/F?color=074006">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://favicon.show/">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Workbench:wght@400;600;700&family=VT323&display=swap');
@@ -138,6 +171,16 @@ export const landingPageHTML = `<!DOCTYPE html>
         .terminal-output {
             white-space: pre-wrap;
             margin: 0.5rem 0;
+        }
+        
+        /* Hide scrollbars */
+        .crt-distortion {
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+        
+        .crt-distortion::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
         }
     </style>
 </head>
