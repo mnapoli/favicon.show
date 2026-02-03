@@ -169,7 +169,7 @@ export default {
     let iconUrl = meta?.iconUrl;
     let needsDiscovery = !meta || !kvClient.isFresh(meta) || !iconUrl;
 
-    if (meta && kvClient.isFresh(meta) && iconUrl) {
+    if (meta && kvClient.isFresh(meta) && iconUrl && !canonicalized.useFallback) {
       ctx.waitUntil(
         (async () => {
           try {
@@ -201,7 +201,7 @@ export default {
       );
     }
 
-    if (needsDiscovery) {
+    if (needsDiscovery && !canonicalized.useFallback) {
       const discovered = await discoverIcon(canonicalized.registrable, theme);
       iconUrl = discovered || undefined;
       

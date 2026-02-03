@@ -16,6 +16,7 @@ export interface FaviconMeta {
 export interface CanonicalizedInput {
   host: string;
   registrable: string;
+  useFallback: boolean;
 }
 
 export interface IconCandidate {
