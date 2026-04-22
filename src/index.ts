@@ -169,7 +169,14 @@ export default {
     let iconUrl = meta?.iconUrl;
     let needsDiscovery = !meta || !kvClient.isFresh(meta) || !iconUrl;
 
-    if (meta && kvClient.isFresh(meta) && iconUrl && !canonicalized.useFallback) {
+    const REVALIDATION_INTERVAL_MS = 24 * 60 * 60 * 1000;
+    if (
+      meta &&
+      kvClient.isFresh(meta) &&
+      iconUrl &&
+      !canonicalized.useFallback &&
+      Date.now() - meta.lastChecked > REVALIDATION_INTERVAL_MS
+    ) {
       ctx.waitUntil(
         (async () => {
           try {
@@ -178,21 +185,20 @@ export default {
             };
             if (meta.etag) headers['If-None-Match'] = meta.etag;
             if (meta.lastModified) headers['If-Modified-Since'] = meta.lastModified;
-            
+
             const response = await fetchWithTimeout(iconUrl!, { headers, timeout: 3000 });
-            
+
             if (response.status !== 304 && response.ok) {
-              await kvClient.putMeta(canonicalized.registrable, {
-                ...meta,
-                etag: response.headers.get('etag') || undefined,
-                lastModified: response.headers.get('last-modified') || undefined,
-                lastChecked: Date.now(),
-              });
-            } else if (response.status === 304) {
-              await kvClient.putMeta(canonicalized.registrable, {
-                ...meta,
-                lastChecked: Date.now(),
-              });
+              const newEtag = response.headers.get('etag') || undefined;
+              const newLastModified = response.headers.get('last-modified') || undefined;
+              if (newEtag !== meta.etag || newLastModified !== meta.lastModified) {
+                await kvClient.putMeta(canonicalized.registrable, {
+                  ...meta,
+                  etag: newEtag,
+                  lastModified: newLastModified,
+                  lastChecked: Date.now(),
+                });
+              }
             }
           } catch (error) {
             console.error('Background revalidation failed:', error);
